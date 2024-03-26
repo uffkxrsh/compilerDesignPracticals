@@ -27,7 +27,17 @@ class deterministicFiniteAutomata {
 
 bool deterministicFiniteAutomata::processString(string str) {
     int currentState = 0;
-    for (const auto& character : str) currentState = transitions[currentState][character];
+
+    cout << "String Processing: " << endl
+         << setw(16) << left << "Current State" << setw(10) << left << "Input" << setw(10)
+         << left << "New State" << endl;
+    int newState;
+    for (const auto& character : str) {
+        newState = transitions[currentState][character];
+        cout << setw(16) << left << ("q" + to_string(currentState)) << setw(10) << left << character << setw(10)
+         << left << ("q" + to_string(newState)) << endl;
+        currentState = newState; 
+    }
     if (finalStates.find(currentState) != finalStates.end()) return true;
     return false;
 }
@@ -63,7 +73,7 @@ string trim(const string& str) {
     return (start < end) ? string(start, end) : "";
 }
 
-template<typename T>
+template <typename T>
 void sortUnorderedSetDecreasing(unordered_set<T>& s) {
     // Copy elements from unordered_set to vector
     vector<T> tempVector(s.begin(), s.end());

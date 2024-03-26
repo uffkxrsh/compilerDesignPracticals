@@ -1,6 +1,7 @@
 #pragma once
 
 #include <bits/stdc++.h>
+
 #include "dfa.hpp"
 using namespace std;
 
@@ -29,19 +30,18 @@ int main() {
 
     sortUnorderedSetDecreasing(alphabet);
 
-    for(auto value: alphabet)
-        cout<<value<<" ";
-    cout<<endl; 
+    for (auto value : alphabet) cout << value << " ";
+    cout << endl;
 
     int init;
-    int finalS; 
+    int finalS;
     cout << "Enter the initial state : " << endl;
     cin >> init;
     cout << init << endl;
 
     cout << "Enter the number of states : " << endl;
     cin >> states;
-    cout<< states << endl; 
+    cout << states << endl;
 
     initialState = init;
     cout << "Enter the final states seperated by a space: " << endl;
@@ -58,9 +58,8 @@ int main() {
 
     sortUnorderedSetDecreasing(finalStates);
 
-    for(auto value: finalStates)
-        cout<<value<<" ";
-    cout<<endl;
+    for (auto value : finalStates) cout << value << " ";
+    cout << endl;
 
     manual(states, alphabet, transitions);
 
@@ -73,8 +72,8 @@ int main() {
 
     cout << "Enter String to check in DFA" << endl;
     getline(cin, input);
-    cout<<input<<endl;
-
+    cout << input << endl;
+    cout << endl;
     if (DFA->processString(input))
         cout << "Success" << endl;
     else
@@ -84,18 +83,17 @@ int main() {
 }
 
 void manual(int states, unordered_set<char>& alphabet, Table& transitions) {
-    
     // std::locale::global(std::locale("en_US.UTF-8"));
-    cout <<"Input transitions (f is the transition function)" <<endl;
+    cout << "Input transitions (f is the transition function)" << endl;
     int state;
     string delta = "f";
     for (size_t i = 0; i < states; i++) {
         for (const auto& value : alphabet) {
             cout << delta << "( " << i << "," << value << " ): ";
-            cin >> state;   
+            cin >> state;
             cout << state << endl;
             transitions[i][value] = state;
         }
     }
     cin.ignore();
-} 
+}
