@@ -1,0 +1,66 @@
+2
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+/*
+    This is a multi-line comment.
+    It spans multiple lines to test
+    the comment extraction program.
+*/
+
+// Function to calculate factorial
+int factorial(int n) {
+    if (n <= 1) {
+        return 1; // Base case
+    }
+    return n * factorial(n - 1); // Recursive call
+}
+
+/*
+    This is another multi-line comment.
+    It provides additional description
+    about the Fibonacci function.
+*/
+
+// Function to print Fibonacci sequence
+void fibonacci(int n) {
+    int a = 0, b = 1;
+    cout << "Fibonacci sequence up to " << n << " terms:" << endl;
+    for (int i = 0; i < n; ++i) {
+        cout << a << " ";
+        int temp = a;
+        a = b;
+        b = temp + b;
+    }
+    cout << endl;
+}
+
+int main() {
+    // Main program starts here
+    cout << "Hello, this is a random program!" << endl;
+    
+    // Calculating factorial of 5
+    int fact = factorial(5);
+    cout << "Factorial of 5 is: " << fact << endl;
+    
+    /*
+        This is a multi-line comment within main function.
+        It adds some additional information about the vector.
+    */
+    
+    // Creating a vector of integers
+    vector<int> numbers = {1, 2, 3, 4, 5};
+    
+    // Displaying vector elements
+    cout << "Vector elements:" << endl;
+    for (int num : numbers) {
+        cout << num << " ";
+    }
+    cout << endl;
+    
+    // End of program
+    return 0;
+}
+END
