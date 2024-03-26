@@ -86,7 +86,7 @@ void manual(int states, unordered_set<char>& alphabet, Table& transitions) {
     // std::locale::global(std::locale("en_US.UTF-8"));
     cout << "Input transitions (f is the transition function)" << endl;
     int state;
-    string delta = "f";
+    string delta = "\u03B4";
     for (size_t i = 0; i < states; i++) {
         for (const auto& value : alphabet) {
             cout << delta << "( " << i << "," << value << " ): ";
