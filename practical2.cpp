@@ -11,8 +11,7 @@ void ending_with(int states, unordered_set<char>& alphabet, Table& transitions, 
                  int finalState, string& inputString);
 void containing(int states, unordered_set<char>& alphabet, Table& transitions, int initialState,
                 int finalState, string& inputString);
-void atleast_atmost_exact(int states, unordered_set<char>& alphabet, Table& transitions,
-                          int atleastx, char ch);
+
 
 int main() {
     int states;
