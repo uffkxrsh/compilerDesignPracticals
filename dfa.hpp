@@ -23,35 +23,42 @@ class deterministicFiniteAutomata {
 
     bool processString(string str);
     void displayTransitionTable();
+    void displayTransitionTableNFA();
 };
 
 bool deterministicFiniteAutomata::processString(string str) {
     int currentState = 0;
 
     cout << "String Processing: " << endl
-         << setw(16) << left << "Current State" << setw(10) << left << "Input" << setw(10)
-         << left << "New State" << endl;
+         << setw(16) << left << "Current State" << setw(10) << left << "Input" << setw(10) << left
+         << "New State" << endl;
     int newState;
     for (const auto& character : str) {
         newState = transitions[currentState][character];
-        cout << setw(16) << left << ("q" + to_string(currentState)) << setw(10) << left << character << setw(10)
-         << left << ("q" + to_string(newState)) << endl;
-        currentState = newState; 
+        cout << setw(16) << left << ("q" + to_string(currentState)) << setw(10) << left << character
+             << setw(10) << left << ("q" + to_string(newState)) << endl;
+        currentState = newState;
     }
     if (finalStates.find(currentState) != finalStates.end()) return true;
     return false;
 }
 
-inline string intToState(int n){
-    string num = to_string(n); 
+inline string intToState(int n) {
+    string num = to_string(n);
     reverse(num.begin(), num.end());
-    return "q" + num;
+    return "q" + num + "";
+}
+
+inline string intToState(int n, int x) {
+    string num = to_string(n);
+    reverse(num.begin(), num.end());
+    return "q[" + num + "]";
 }
 
 void deterministicFiniteAutomata::displayTransitionTable() {
     cout << setw(4) << "  " << setw(7) << "States";
 
-    for (const auto& value : this->alphabet) cout << setw(10) << value;
+    for (const auto& value : this->alphabet) cout << setw(15) << value;
 
     cout << endl;
 
@@ -66,7 +73,31 @@ void deterministicFiniteAutomata::displayTransitionTable() {
         cout << setw(7) << intToState(state);
 
         for (const auto& value : this->alphabet)
-            cout << setw(10) << intToState(this->transitions[state][value]);
+            cout << setw(15) << intToState(this->transitions[state][value]);
+
+        cout << endl;
+    }
+}
+
+void deterministicFiniteAutomata::displayTransitionTableNFA() {
+    cout << setw(4) << "  " << setw(7) << "States";
+
+    for (const auto& value : this->alphabet) cout << setw(15) << value;
+
+    cout << endl;
+
+    for (auto state : this->states) {
+        if (state == 0)
+            cout << setw(4) << "->";
+        else if (this->finalStates.find(state) != this->finalStates.end())
+            cout << setw(4) << " *";
+        else
+            cout << setw(4) << "  ";
+
+        cout << setw(7) << intToState(state,0);
+
+        for (const auto& value : this->alphabet)
+            cout << setw(15) << intToState(this->transitions[state][value],0);
 
         cout << endl;
     }
@@ -95,4 +126,3 @@ void sortUnorderedSetDecreasing(unordered_set<T>& s) {
         s.insert(elem);
     }
 }
-

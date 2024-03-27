@@ -77,6 +77,7 @@ int main() {
     deterministicFiniteAutomata* dfa = convertNFAtoDFA(nfa);
 
     delete nfa;
+    delete dfa;
 }
 
 void manualInput(set<int> states, unordered_set<char>& alphabet, Tablenfa& transitions) {
@@ -165,7 +166,7 @@ deterministicFiniteAutomata* convertNFAtoDFA(nonDeterministicFiniteAutomata* nfa
     deterministicFiniteAutomata* dfa =
         new deterministicFiniteAutomata(states, alphabet, transitions, initialState, finalStates);
 
-    dfa->displayTransitionTable();
+    dfa->displayTransitionTableNFA();
 
     return dfa;
 }
