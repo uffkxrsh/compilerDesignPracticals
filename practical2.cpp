@@ -5,16 +5,16 @@
 #include "dfa.hpp"
 using namespace std;
 
-void starting_with(int states, unordered_set<char>& alphabet, Table& transitions, int initialState,
+void starting_with(set<int> states, unordered_set<char>& alphabet, Table& transitions, int initialState,
                    int finalState, string& inputString);
-void ending_with(int states, unordered_set<char>& alphabet, Table& transitions, int initialState,
+void ending_with(set<int> states, unordered_set<char>& alphabet, Table& transitions, int initialState,
                  int finalState, string& inputString);
-void containing(int states, unordered_set<char>& alphabet, Table& transitions, int initialState,
+void containing(set<int> states, unordered_set<char>& alphabet, Table& transitions, int initialState,
                 int finalState, string& inputString);
 
 
 int main() {
-    int states;
+    set<int> states;
     unordered_set<char> alphabet;
     Table transitions;
     int initialState = 0;
@@ -55,25 +55,25 @@ int main() {
                 cout << "Enter the string you want to construct DFA for:";
                 getline(cin, inputString);
                 cout<< '\n' <<inputString<<endl;
-                states = inputString.size() + 2;
-                finalStates.insert(states - 2);
-                starting_with(states, alphabet, transitions, initialState, states - 2, inputString);
+                for(int i = 0; i < inputString.size() + 2;i++) states.insert(i);
+                finalStates.insert(states.size() - 2);
+                starting_with(states, alphabet, transitions, initialState, states.size() - 2, inputString);
             } break;
             case 2: {
                 cout << "Enter the string you want to construct DFA for:";
                 getline(cin, inputString);
                 cout<< '\n' <<inputString<<endl;
-                states = inputString.size() + 1;
-                finalStates.insert(states - 1);
-                ending_with(states, alphabet, transitions, initialState, states - 1, inputString);
+                for(int i = 0; i < inputString.size() + 1;i++) states.insert(i);
+                finalStates.insert(states.size() - 1);
+                ending_with(states, alphabet, transitions, initialState, states.size() - 1, inputString);
             } break;
             case 3: {
                 cout << "Enter the string you want to construct DFA for:";
                 getline(cin, inputString);
                 cout<< '\n' <<inputString<<endl;
-                states = inputString.size() + 2;
-                finalStates.insert(states - 1);
-                containing(states, alphabet, transitions, initialState, states - 1, inputString);
+                for(int i = 0; i < inputString.size() + 2;i++) states.insert(i);
+                finalStates.insert(states.size() - 1);
+                containing(states, alphabet, transitions, initialState, states.size() - 1, inputString);
             } break;
             default: {
                 cout << "Invalid Choice, Re-Enter!" << endl;
@@ -99,64 +99,64 @@ int main() {
     return 0;
 }
 
-void starting_with(int states, unordered_set<char>& alphabet, Table& transitions, int initialState,
+void starting_with(set<int> states, unordered_set<char>& alphabet, Table& transitions, int initialState,
                    int finalState, string& inputString) {
-    int deadState = states - 1;
-    for (size_t i = 0; i < states; i++) {
-        if (i == finalState || i == deadState) {
-            for (const auto& value : alphabet) transitions[i][value] = i;
+    int deadState = states.size() - 1;
+    for (auto state: states) {
+        if (state == finalState || state == deadState) {
+            for (const auto& value : alphabet) transitions[state][value] = state;
             continue;
         }
 
         for (const auto& value : alphabet) {
-            if (inputString[i] == value) {
-                transitions[i][value] = i + 1;
+            if (inputString[state] == value) {
+                transitions[state][value] = state + 1;
                 continue;
             }
-            transitions[i][value] = deadState;
+            transitions[state][value] = deadState;
         }
     }
 }
 
-void ending_with(int states, unordered_set<char>& alphabet, Table& transitions, int initialState,
+void ending_with(set<int> states, unordered_set<char>& alphabet, Table& transitions, int initialState,
                  int finalState, string& inputString) {
     map<char, int> flags;
     for (const auto& value : alphabet) flags[value] = -1;
 
-    for (size_t i = 0; i < states; i++) {
-        if (i == finalState) {
-            for (const auto& value : alphabet) transitions[i][value] = flags[value];
+    for (auto state: states) {
+        if (state == finalState) {
+            for (const auto& value : alphabet) transitions[state][value] = flags[value];
             continue;
         }
 
         for (const auto& value : alphabet) {
-            if (inputString[i] == value)
-                transitions[i][value] = i + 1;
+            if (inputString[state] == value)
+                transitions[state][value] = state + 1;
             else {
-                if (flags[value] == -1) flags[value] = i;
-                transitions[i][value] = flags[value];
+                if (flags[value] == -1) flags[value] = state;
+                transitions[state][value] = flags[value];
             }
         }
     }
 }
 
-void containing(int states, unordered_set<char>& alphabet, Table& transitions, int initialState,
+void containing(set<int> states, unordered_set<char>& alphabet, Table& transitions, int initialState,
                 int finalState, string& inputString) {
     map<char, int> flags;
     for (const auto& value : alphabet) flags[value] = -1;
 
-    for (size_t i = 0; i < states; i++) {
-        if (i == finalState) {
-            for (const auto& value : alphabet) transitions[i][value] = i;
+    for (auto state: states) {
+        if (state == finalState) {
+            for (const auto& value : alphabet) transitions[state][value] = state;
             continue;
         }
 
         for (const auto& value : alphabet) {
-            if (inputString[i] == value)
-                transitions[i][value] = i + 1;
+            if (inputString[state] == value)
+                transitions[state][value] = state + 1;
             else {
-                if (flags[value] == -1) flags[value] = i;
-                transitions[i][value] = flags[value];
+                if (flags[value] == -1) flags[value] = state;
+                transitions[state][value] = flags[value];
             }
         }
     }

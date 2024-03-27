@@ -3,17 +3,18 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-typedef map<int, map<char, unordered_set<int>>> Tablenfa;
+typedef map<int, map<char, set<int>>> Tablenfa;
 
 class nonDeterministicFiniteAutomata {
-    int states;
+    
+   public:
+    set<int> states;
     unordered_set<char> alphabet;
     Tablenfa transitions;
     int initialState;
     unordered_set<int> finalStates;
 
-   public:
-    nonDeterministicFiniteAutomata(int states, unordered_set<char> alphabet, Tablenfa transitions,
+    nonDeterministicFiniteAutomata(set<int> states, unordered_set<char> alphabet, Tablenfa transitions,
                                 char initialState, unordered_set<int> finalStates)
         : states(states),
           alphabet(alphabet),
@@ -50,19 +51,19 @@ void nonDeterministicFiniteAutomata::displayTransitionTablenfa() {
 
     cout << endl;
 
-    for (int i = 0; i < this->transitions.size(); i++) {
-        if (i == 0)
+    for (auto state: this->states) {
+        if (state == 0)
             cout << setw(4) << "->";
-        else if (this->finalStates.find(i) != this->finalStates.end())
+        else if (this->finalStates.find(state) != this->finalStates.end())
             cout << setw(4) << " *";
         else
             cout << setw(4) << "  ";
 
-        cout << setw(7) << i;
+        cout << setw(7) << state;
 
         for (const auto& value : this->alphabet) {
             string trnsStates = "{ ";
-            for (auto resultStates : this->transitions[i][value]) {
+            for (auto resultStates : this->transitions[state][value]) {
                 trnsStates = trnsStates + "q" + to_string(resultStates) + " ";
             }
             trnsStates += "}";

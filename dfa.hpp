@@ -6,14 +6,14 @@ using namespace std;
 typedef map<int, map<char, int>> Table;
 
 class deterministicFiniteAutomata {
-    int states;
+    set<int> states;
     unordered_set<char> alphabet;
     Table transitions;
     int initialState;
     unordered_set<int> finalStates;
 
    public:
-    deterministicFiniteAutomata(int states, unordered_set<char> alphabet, Table transitions,
+    deterministicFiniteAutomata(set<int> states, unordered_set<char> alphabet, Table transitions,
                                 char initialState, unordered_set<int> finalStates)
         : states(states),
           alphabet(alphabet),
@@ -42,25 +42,31 @@ bool deterministicFiniteAutomata::processString(string str) {
     return false;
 }
 
+inline string intToState(int n){
+    string num = to_string(n); 
+    reverse(num.begin(), num.end());
+    return "q" + num;
+}
+
 void deterministicFiniteAutomata::displayTransitionTable() {
     cout << setw(4) << "  " << setw(7) << "States";
 
-    for (const auto& value : this->alphabet) cout << setw(5) << value;
+    for (const auto& value : this->alphabet) cout << setw(10) << value;
 
     cout << endl;
 
-    for (int i = 0; i < this->transitions.size(); i++) {
-        if (i == 0)
+    for (auto state : this->states) {
+        if (state == 0)
             cout << setw(4) << "->";
-        else if (this->finalStates.find(i) != this->finalStates.end())
+        else if (this->finalStates.find(state) != this->finalStates.end())
             cout << setw(4) << " *";
         else
             cout << setw(4) << "  ";
 
-        cout << setw(7) << i;
+        cout << setw(7) << intToState(state);
 
         for (const auto& value : this->alphabet)
-            cout << setw(5) << ("q" + to_string(this->transitions[i][value]));
+            cout << setw(10) << intToState(this->transitions[state][value]);
 
         cout << endl;
     }
@@ -89,3 +95,4 @@ void sortUnorderedSetDecreasing(unordered_set<T>& s) {
         s.insert(elem);
     }
 }
+

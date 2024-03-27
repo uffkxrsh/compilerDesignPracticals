@@ -1,14 +1,14 @@
 #pragma once
 
 #include <bits/stdc++.h>
-
 #include "dfa.hpp"
+
 using namespace std;
 
-void manual(int states, unordered_set<char>& alphabet, Table& transitions);
+void manual(set<int> states, unordered_set<char>& alphabet, Table& transitions);
 
 int main() {
-    int states;
+    set<int> states;
     unordered_set<char> alphabet;
     Table transitions;
     int initialState = 0;
@@ -39,9 +39,11 @@ int main() {
     cin >> init;
     cout << init << endl;
 
+    int nstates; 
     cout << "Enter the number of states : " << endl;
-    cin >> states;
-    cout << states << endl;
+    cin >> nstates;
+    for(int i = 0; i < nstates ; i++) states.insert(i);
+    std::cout << nstates << endl;
 
     initialState = init;
     cout << "Enter the final states seperated by a space: " << endl;
@@ -82,17 +84,17 @@ int main() {
     return 0;
 }
 
-void manual(int states, unordered_set<char>& alphabet, Table& transitions) {
+void manual(set<int> states, unordered_set<char>& alphabet, Table& transitions) {
     // std::locale::global(std::locale("en_US.UTF-8"));
     cout << "Input transitions (f is the transition function)" << endl;
-    int state;
+    int istate;
     string delta = "\u03B4";
-    for (size_t i = 0; i < states; i++) {
+    for (auto state: states) {
         for (const auto& value : alphabet) {
-            cout << delta << "( " << i << "," << value << " ): ";
-            cin >> state;
-            cout << state << endl;
-            transitions[i][value] = state;
+            cout << delta << "( " << state << "," << value << " ): ";
+            cin >> istate;
+            cout << istate << endl;
+            transitions[state][value] = istate;
         }
     }
     cin.ignore();
